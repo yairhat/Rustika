@@ -7,7 +7,7 @@
   <meta name="description" content="Rústika en Texcoco. Pizza de horno de leña, pasta artesanal y ambiente rústico único. Abierto todos los días de 12:00 a 22:30 hrs.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Lato:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Lato:ital,wght@0,300;0,400;1,300&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -18,6 +18,7 @@
       --surface:   #1a1a1a;
       --surface-2: #222222;
       --text:      #f0ece4;
+      --serif:     'Cormorant Garamond', Georgia, serif;
       --muted:     #888880;
       --radius:    6px;
       --transition: 0.3s ease;
@@ -783,6 +784,207 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* ── GRAIN TEXTURE ────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.032;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    /* textura sutil en sections alternas */
+    #nosotros, #galeria, #contacto {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    /* ── TIPOGRAFÍA SERIF – ACENTO ────────────────────── */
+    .hero-tagline {
+      font-family: var(--serif);
+      font-size: clamp(1.15rem, 2.8vw, 1.4rem);
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: rgba(240,236,228,0.82);
+      margin-bottom: 2.5rem;
+    }
+
+    .section-label {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      text-transform: none;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .serif-accent {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* ── TESTIMONIOS ──────────────────────────────────── */
+    #testimonios { background: var(--carbon); }
+
+    .testimonios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .testimonio-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius);
+      padding: 2rem 1.8rem;
+      position: relative;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+
+    .testimonio-card:hover {
+      border-color: rgba(201,168,76,0.3);
+      transform: translateY(-4px);
+    }
+
+    .testimonio-card::before {
+      content: '\201C';
+      font-family: var(--serif);
+      font-size: 5rem;
+      line-height: 1;
+      color: var(--gold);
+      opacity: 0.25;
+      position: absolute;
+      top: 0.5rem;
+      left: 1.2rem;
+    }
+
+    .testimonio-text {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: rgba(240,236,228,0.82);
+      margin-bottom: 1.4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .testimonio-stars {
+      color: var(--gold);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .testimonio-author {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .testimonios-source {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .testimonios-source a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* ── WHATSAPP FLOTANTE ────────────────────────────── */
+    .wa-float {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0;
+      transform: translateY(16px) scale(0.9);
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .wa-float.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .wa-tooltip {
+      background: var(--surface-2);
+      border: 1px solid rgba(201,168,76,0.25);
+      color: var(--text);
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .wa-float:hover .wa-tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .wa-btn {
+      width: 56px;
+      height: 56px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      transition: transform var(--transition), box-shadow var(--transition);
+      flex-shrink: 0;
+    }
+
+    .wa-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 28px rgba(37,211,102,0.6);
+    }
+
+    .wa-btn::after {
+      content: '';
+      position: absolute;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid rgba(37,211,102,0.5);
+      animation: waPulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes waPulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+
+    @media (max-width: 480px) {
+      .wa-float { bottom: 1.2rem; right: 1.2rem; }
+      .wa-tooltip { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -980,6 +1182,39 @@
     </div>
   </section>
 
+  <!-- TESTIMONIOS -->
+  <section id="testimonios">
+    <div class="container">
+      <div class="fade-up" style="text-align:center;">
+        <p class="section-label">Lo que dice la gente</p>
+        <h2 class="section-title">Opiniones </h2>
+        <div class="divider" style="margin: 1.2rem auto 0;"></div>
+      </div>
+      <div class="testimonios-grid">
+
+        <div class="testimonio-card fade-up">
+          <p class="testimonio-stars">★★★★★</p>
+          <p class="testimonio-text">Pedimos su pizza de horno de leña: excelente. Masa fina, crujiente y con ingredientes de calidad. El mesero fue muy atento y los cócteles estaban deliciosos.</p>
+          <p class="testimonio-author">RishiBasak · Texcoco</p>
+        </div>
+
+        <div class="testimonio-card fade-up">
+          <p class="testimonio-stars">★★★★</p>
+          <p class="testimonio-text">Tercera vez que visito el restaurante. Estilo rústico muy bonito, con varios espacios y rincones con carácter. Ideal para familia o pareja.</p>
+          <p class="testimonio-author">G. Franco · CDMX</p>
+        </div>
+
+        <div class="testimonio-card fade-up">
+          <p class="testimonio-stars">★★★★</p>
+          <p class="testimonio-text">Lugar muy bonito y personal muy amable. Ambiente acogedor, ideal para salir de la rutina. La pizza margarita no decepciona.</p>
+          <p class="testimonio-author">Rako2 · Ciudad de México</p>
+        </div>
+
+      </div>
+      <p class="testimonios-source">Reseñas verificadas en <a href="https://www.tripadvisor.com/Restaurant_Review-g2640759-d17569273-Reviews-Rustika-Texcoco_Central_Mexico_and_Gulf_Coast.html" target="_blank" rel="noopener">TripAdvisor</a></p>
+    </div>
+  </section>
+
   <!-- HORARIOS -->
   <section id="horarios">
     <div class="container">
@@ -1147,6 +1382,18 @@
     <p class="footer-copy">© 2026 Rústika. Calle 2 de Marzo 39, Texcoco · +52 595 108 1746</p>
   </footer>
 
+  <!-- WHATSAPP FLOTANTE -->
+  <div class="wa-float" id="waFloat">
+    <span class="wa-tooltip">Reservar mesa</span>
+    <a
+      class="wa-btn"
+      href="https://wa.me/525951081746?text=Hola%2C%20me%20gustar%C3%ADa%20hacer%20una%20reservaci%C3%B3n%20en%20R%C3%BAstika"
+      target="_blank"
+      rel="noopener"
+      aria-label="Reservar por WhatsApp"
+    >💬</a>
+  </div>
+
   <script>
     // ── Mobile nav ──────────────────────────────────────
     const btn = document.getElementById('menuBtn');
@@ -1190,6 +1437,12 @@
       const url = `https://wa.me/525951081746?text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank');
     }
+
+    // ── WhatsApp float ──────────────────────────────────
+    const waFloat = document.getElementById('waFloat');
+    window.addEventListener('scroll', () => {
+      waFloat.classList.toggle('visible', window.scrollY > window.innerHeight * 0.6);
+    }, { passive: true });
 
     // ── Today highlight ─────────────────────────────────
     const days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
