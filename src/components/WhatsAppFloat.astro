@@ -1,0 +1,20 @@
+---
+---
+
+<div class="wa-float" id="waFloat">
+  <span class="wa-tooltip">Reservar mesa</span>
+  <a
+    class="wa-btn"
+    href="https://wa.me/525951081746?text=Hola%2C%20me%20gustar%C3%ADa%20hacer%20una%20reservaci%C3%B3n%20en%20R%C3%BAstika"
+    target="_blank"
+    rel="noopener"
+    aria-label="Reservar por WhatsApp"
+  >💬</a>
+</div>
+
+<script>
+  const waFloat = document.getElementById('waFloat');
+  window.addEventListener('scroll', () => {
+    waFloat?.classList.toggle('visible', window.scrollY > window.innerHeight * 0.6);
+  }, { passive: true });
+</script>

@@ -1,0 +1,62 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Rústika – Pizzería & Restaurante Italiano | Texcoco',
+  description = 'Rústika en Texcoco. Pizza de horno de leña, pasta artesanal y ambiente rústico único. Abierto todos los días de 12:00 a 22:30 hrs.',
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Lato:ital,wght@0,300;0,400;1,300&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <slot />
+
+  <script>
+    // Scroll fade-in para todos los elementos .fade-up
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Parallax sutil en el video del hero
+    const heroVideo = document.getElementById('heroVideo') as HTMLVideoElement | null;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y < window.innerHeight && heroVideo) {
+        heroVideo.style.transform = `scale(1.05) translateY(${y * 0.25}px)`;
+      }
+    }, { passive: true });
+
+    // Resalta el día actual en la tabla de horarios
+    const days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+    const today = days[new Date().getDay()];
+    document.querySelectorAll('.schedule-table td:first-child').forEach(td => {
+      if (td.textContent?.includes(today.slice(0, 3))) {
+        td.classList.add('today');
+        (td.nextElementSibling as HTMLElement)?.classList.add('today');
+      }
+    });
+  </script>
+</body>
+</html>

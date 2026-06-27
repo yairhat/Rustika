@@ -1,0 +1,92 @@
+---
+---
+
+<section id="contacto">
+  <div class="container">
+    <div class="fade-up" style="text-align:center; margin-bottom:3rem;">
+      <p class="section-label">Reservaciones &amp; Contacto</p>
+      <h2 class="section-title">¿Nos vemos<br>en Rústika?</h2>
+      <div class="divider" style="margin:1.2rem auto 0;"></div>
+    </div>
+    <div class="contacto-grid">
+      <div class="contacto-info fade-up">
+        <h3>Escríbenos directo</h3>
+        <p>La forma más rápida de hacer tu reservación es por WhatsApp. También puedes llamarnos o mandarnos un mensaje por Instagram.</p>
+        <div class="contact-links">
+          <a
+            href="https://wa.me/525951081746?text=Hola%2C%20me%20gustar%C3%ADa%20hacer%20una%20reservaci%C3%B3n%20en%20R%C3%BAstika"
+            target="_blank"
+            rel="noopener"
+            class="contact-link"
+          >
+            <span class="contact-link-icon">💬</span>
+            WhatsApp · +52 595 108 1746
+          </a>
+          <a href="tel:+525951081746" class="contact-link">
+            <span class="contact-link-icon">📞</span>
+            Llamar al restaurante
+          </a>
+          <a href="https://www.instagram.com/rustikatexcoco/" target="_blank" rel="noopener" class="contact-link">
+            <span class="contact-link-icon">📸</span>
+            @rustikatexcoco en Instagram
+          </a>
+          <a href="https://maps.app.goo.gl/X6k1Fq2wJXvK8cYW6" target="_blank" rel="noopener" class="contact-link">
+            <span class="contact-link-icon">📍</span>
+            Ver en Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="fade-up">
+        <p class="form-title">Solicitar reservación</p>
+        <form id="reservaForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="nombre">Nombre</label>
+              <input class="form-input" type="text" id="nombre" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="tel">Teléfono</label>
+              <input class="form-input" type="tel" id="tel" placeholder="+52 55 0000 0000">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fecha">Fecha</label>
+              <input class="form-input" type="date" id="fecha" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="personas">Personas</label>
+              <select class="form-select" id="personas">
+                <option value="1-2">1 – 2</option>
+                <option value="3-4" selected>3 – 4</option>
+                <option value="5-6">5 – 6</option>
+                <option value="7+">7 o más</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="nota">Notas (opcional)</label>
+            <textarea class="form-textarea" id="nota" placeholder="Cumpleaños, alergias, preferencias de mesa…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit">
+            Enviar por WhatsApp 💬
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('reservaForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombre   = (document.getElementById('nombre') as HTMLInputElement).value;
+    const tel      = (document.getElementById('tel') as HTMLInputElement).value;
+    const fecha    = (document.getElementById('fecha') as HTMLInputElement).value;
+    const personas = (document.getElementById('personas') as HTMLSelectElement).value;
+    const nota     = (document.getElementById('nota') as HTMLTextAreaElement).value;
+
+    const msg = `Hola, me gustaría hacer una reservación en Rústika:\n\n👤 Nombre: ${nombre}\n📞 Teléfono: ${tel || 'no especificado'}\n📅 Fecha: ${fecha}\n👥 Personas: ${personas}\n📝 Notas: ${nota || 'ninguna'}`;
+    window.open(`https://wa.me/525951081746?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+</script>

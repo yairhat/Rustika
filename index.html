@@ -139,14 +139,18 @@
     .hero-bg {
       position: absolute;
       inset: 0;
-      background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80');
-      background-size: cover;
-      background-position: center;
+      overflow: hidden;
+    }
+
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       transform: scale(1.05);
       transition: transform 8s ease;
     }
 
-    #hero:hover .hero-bg { transform: scale(1); }
+    #hero:hover .hero-video { transform: scale(1); }
 
     .hero-overlay {
       position: absolute;
@@ -380,8 +384,108 @@
       .about-stats { gap: 1.5rem; }
     }
 
+    /* ── CONTADOR ─────────────────────────────────────── */
+    #contador {
+      background: var(--surface);
+      padding: 4rem 1.5rem;
+      border-top: 1px solid rgba(201,168,76,0.12);
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+    }
+
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .counter-item { position: relative; }
+
+    .counter-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 50%;
+      transform: translateY(-50%);
+      height: 40px;
+      width: 1px;
+      background: rgba(201,168,76,0.2);
+    }
+
+    .counter-num {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .counter-label {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 640px) {
+      .counter-grid { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; }
+      .counter-item:nth-child(2)::after { display: none; }
+      .counter-item:nth-child(4)::after { display: none; }
+    }
+
     /* ── MENU ─────────────────────────────────────────── */
-    #menu { background: var(--surface); }
+    #menu { background: var(--carbon); }
+
+    /* Tabs */
+    .menu-tabs {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin: 2rem 0 2rem;
+    }
+
+    .menu-tab {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.55rem 1.4rem;
+      border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .menu-tab:hover {
+      border-color: rgba(201,168,76,0.5);
+      color: var(--gold-lt);
+    }
+
+    .menu-tab.active {
+      background: var(--gold);
+      color: var(--carbon);
+      border-color: var(--gold);
+    }
+
+    /* Panels */
+    .menu-panel {
+      display: none;
+    }
+
+    .menu-panel.active {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+      animation: tabFade 0.35s ease;
+    }
+
+    @keyframes tabFade {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
     .menu-grid {
       display: grid;
@@ -1007,7 +1111,19 @@
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-bg" id="heroBg">
+      <!-- 🎬 Reemplazar src con video real del restaurante para producción -->
+      <video
+        class="hero-video"
+        id="heroVideo"
+        autoplay muted loop playsinline
+        poster="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80"
+      >
+        <source src="https://videos.pexels.com/video-files/3209728/3209728-hd_1920_1080_25fps.mp4" type="video/mp4">
+        <source src="https://videos.pexels.com/video-files/854993/854993-hd_1920_1080_25fps.mp4" type="video/mp4">
+        <!-- Si el video no carga, se muestra el poster (imagen de fondo) -->
+      </video>
+    </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <p class="hero-eyebrow">Pizzería &amp; Restaurante Italiano · Texcoco</p>
@@ -1062,7 +1178,31 @@
     </div>
   </section>
 
-  <!-- MENÚ HIGHLIGHTS -->
+  <!-- CONTADOR -->
+  <section id="contador">
+    <div class="container">
+      <div class="counter-grid">
+        <div class="counter-item fade-up">
+          <div class="counter-num" data-target="7" data-suffix="+">0+</div>
+          <div class="counter-label">años en Texcoco</div>
+        </div>
+        <div class="counter-item fade-up">
+          <div class="counter-num" data-target="500" data-suffix="+">0+</div>
+          <div class="counter-label">pizzas al mes</div>
+        </div>
+        <div class="counter-item fade-up">
+          <div class="counter-num" data-target="4" data-suffix="">0</div>
+          <div class="counter-label">espacios únicos</div>
+        </div>
+        <div class="counter-item fade-up">
+          <div class="counter-num" data-target="4.0" data-suffix="★">0★</div>
+          <div class="counter-label">en Google Maps</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENÚ CON TABS -->
   <section id="menu">
     <div class="container">
       <div class="fade-up">
@@ -1070,60 +1210,151 @@
         <h2 class="section-title">Menú</h2>
         <div class="divider"></div>
       </div>
-      <div class="menu-grid">
-        <div class="menu-card fade-up">
-          <img
-            class="menu-card-img"
-            src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=700&q=80"
-            alt="Pizza de horno de leña"
-            loading="lazy"
-          >
+
+      <!-- Tabs de categoría -->
+      <div class="menu-tabs fade-up">
+        <button class="menu-tab active" data-tab="pizzas">🍕 Pizzas</button>
+        <button class="menu-tab" data-tab="pastas">🍝 Pastas</button>
+        <button class="menu-tab" data-tab="burgers">🍔 Burgers</button>
+        <button class="menu-tab" data-tab="bebidas">🍷 Bebidas</button>
+      </div>
+
+      <!-- PIZZAS -->
+      <div id="tab-pizzas" class="menu-panel active">
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=700&q=80" alt="Pizza Margherita" loading="lazy">
           <div class="menu-card-body">
-            <p class="menu-card-tag">Especialidad</p>
-            <h3 class="menu-card-title">Pizza de Horno de Leña</h3>
-            <p class="menu-card-desc">Masa artesanal, base de tomate San Marzano, mozzarella fresca y tus ingredientes favoritos. Fina, crujiente y con el ahumado perfecto.</p>
+            <p class="menu-card-tag">Clásica</p>
+            <h3 class="menu-card-title">Margherita</h3>
+            <p class="menu-card-desc">Tomate San Marzano, mozzarella de búfala, albahaca fresca. La pizza en su forma más pura.</p>
           </div>
         </div>
-        <div class="menu-card fade-up">
-          <img
-            class="menu-card-img"
-            src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=700&q=80"
-            alt="Pasta artesanal"
-            loading="lazy"
-          >
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=700&q=80" alt="Pizza Cuatro Quesos" loading="lazy">
           <div class="menu-card-body">
-            <p class="menu-card-tag">Pastas</p>
-            <h3 class="menu-card-title">Pastas Artesanales</h3>
-            <p class="menu-card-desc">Fetuccine, penne y rigatoni en salsas clásicas: alfredo, bolognesa, arrabbiata. Cocinadas al momento para que lleguen perfectas a tu mesa.</p>
+            <p class="menu-card-tag">Favorita</p>
+            <h3 class="menu-card-title">Cuatro Quesos</h3>
+            <p class="menu-card-desc">Mozzarella, gouda ahumado, parmesano y gorgonzola. Para los que no pueden decidir.</p>
           </div>
         </div>
-        <div class="menu-card fade-up">
-          <img
-            class="menu-card-img"
-            src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&q=80"
-            alt="BBQ Ribs Burger"
-            loading="lazy"
-          >
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1628840042765-356cda07504e?w=700&q=80" alt="Pizza Prosciutto" loading="lazy">
           <div class="menu-card-body">
-            <p class="menu-card-tag">Burgers</p>
-            <h3 class="menu-card-title">BBQ Ribs Burger</h3>
-            <p class="menu-card-desc">La burger que le roba el show a todo el menú. Carne jugosa, costilla ahumada, salsa BBQ y cebolla caramelizada. Para los que van en serio.</p>
+            <p class="menu-card-tag">Gourmet</p>
+            <h3 class="menu-card-title">Prosciutto &amp; Rúcula</h3>
+            <p class="menu-card-desc">Jamón serrano, rúcula fresca, tomate cherry y aceite de oliva extra virgen.</p>
           </div>
         </div>
-        <div class="menu-card fade-up">
-          <img
-            class="menu-card-img"
-            src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=700&q=80"
-            alt="Cócteles y vinos"
-            loading="lazy"
-          >
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=700&q=80" alt="Pizza Pepperoni" loading="lazy">
           <div class="menu-card-body">
-            <p class="menu-card-tag">Bebidas</p>
-            <h3 class="menu-card-title">Cócteles &amp; Vinos</h3>
-            <p class="menu-card-desc">Carta de vinos nacionales e importados, cócteles de temporada y el mojito que ya es favorito de la casa. La cena no termina sin uno.</p>
+            <p class="menu-card-tag">Especial</p>
+            <h3 class="menu-card-title">Pepperoni Especial</h3>
+            <p class="menu-card-desc">Doble capa de pepperoni artesanal, mozzarella que se derrite y orégano del campo.</p>
           </div>
         </div>
       </div>
+
+      <!-- PASTAS -->
+      <div id="tab-pastas" class="menu-panel">
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=700&q=80" alt="Fetuccine Alfredo" loading="lazy">
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Clásica</p>
+            <h3 class="menu-card-title">Fetuccine Alfredo</h3>
+            <p class="menu-card-desc">Crema, mantequilla y parmesano en su punto. Sencilla, elegante, irresistible.</p>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=700&q=80" alt="Rigatoni Bolognesa" loading="lazy">
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Contundente</p>
+            <h3 class="menu-card-title">Rigatoni Bolognesa</h3>
+            <p class="menu-card-desc">Ragú de res y cerdo cocinado lento, con vino tinto y hierbas italianas. El comfort food definitivo.</p>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1551183053-bf91798d792b?w=700&q=80" alt="Penne Arrabbiata" loading="lazy">
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Picante</p>
+            <h3 class="menu-card-title">Penne Arrabbiata</h3>
+            <p class="menu-card-desc">Salsa de tomate con ajo, chile, aceite de oliva y perejil. Para los que le entran al picante.</p>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1595295333158-4742f28fbd85?w=700&q=80" alt="Linguine Aglio e Olio" loading="lazy">
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Ligera</p>
+            <h3 class="menu-card-title">Linguine Aglio e Olio</h3>
+            <p class="menu-card-desc">Ajo dorado, aceite de oliva, peperoncino y perejil. La receta más italiana de todas.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BURGERS -->
+      <div id="tab-burgers" class="menu-panel">
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&q=80" alt="BBQ Ribs Burger" loading="lazy">
+          <div class="menu-card-body">
+            <p class="menu-card-tag">La estrella</p>
+            <h3 class="menu-card-title">BBQ Ribs Burger</h3>
+            <p class="menu-card-desc">Carne jugosa, costilla ahumada, salsa BBQ y cebolla caramelizada. Para los que van en serio.</p>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=700&q=80" alt="Burger Italiana" loading="lazy">
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Fusión</p>
+            <h3 class="menu-card-title">La Italiana</h3>
+            <p class="menu-card-desc">Carne de res, mozzarella fundida, pesto, jitomate y rúcula. El sabor de Italia en cada mordida.</p>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=700&q=80" alt="Doble Smash" loading="lazy">
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Contundente</p>
+            <h3 class="menu-card-title">Doble Smash</h3>
+            <p class="menu-card-desc">Doble carne aplastada, queso americano, pepinillos y mostaza artesanal. Sin rodeos.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BEBIDAS -->
+      <div id="tab-bebidas" class="menu-panel">
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=700&q=80" alt="Selección de vinos" loading="lazy">
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Vinos</p>
+            <h3 class="menu-card-title">Carta de Vinos</h3>
+            <p class="menu-card-desc">Tintos y blancos nacionales e importados. Maridaje perfecto para tu pizza o pasta.</p>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=700&q=80" alt="Mojito" loading="lazy">
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Favorito de la casa</p>
+            <h3 class="menu-card-title">Mojito Rústika</h3>
+            <p class="menu-card-desc">Ron blanco, menta fresca, limón, azúcar y agua mineral. Ya es el pedido obligado.</p>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=700&q=80" alt="Cócteles de temporada" loading="lazy">
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Temporada</p>
+            <h3 class="menu-card-title">Cócteles del Chef</h3>
+            <p class="menu-card-desc">Carta rotativa con recetas de temporada. Spritz, negroni, aperol y más. Pregunta al mesero.</p>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img class="menu-card-img" src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=700&q=80" alt="Cervezas artesanales" loading="lazy">
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Cervezas</p>
+            <h3 class="menu-card-title">Cervezas Artesanales</h3>
+            <p class="menu-card-desc">Selección de cervezas nacionales artesanales. Rubia, oscura o de trigo — la que mejor te acompañe.</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1415,14 +1646,54 @@
 
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    // ── Parallax hero ───────────────────────────────────
-    const heroBg = document.getElementById('heroBg');
+    // ── Parallax hero (aplica al video) ─────────────────
+    const heroVideo = document.getElementById('heroVideo');
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
-      if (y < window.innerHeight) {
-        heroBg.style.transform = `scale(1.05) translateY(${y * 0.3}px)`;
+      if (y < window.innerHeight && heroVideo) {
+        heroVideo.style.transform = `scale(1.05) translateY(${y * 0.25}px)`;
       }
     }, { passive: true });
+
+    // ── Menu tabs ────────────────────────────────────────
+    document.querySelectorAll('.menu-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ── Contador animado ─────────────────────────────────
+    function animateCounter(el) {
+      const target  = parseFloat(el.dataset.target);
+      const suffix  = el.dataset.suffix || '';
+      const decimal = target % 1 !== 0;
+      const duration = 1800;
+      const start  = performance.now();
+
+      function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased    = 1 - Math.pow(1 - progress, 3);
+        const val      = decimal ? (target * eased).toFixed(1) : Math.round(target * eased);
+        el.textContent = val + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    const counterObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.counter-num').forEach(animateCounter);
+          counterObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const counterSection = document.getElementById('contador');
+    if (counterSection) counterObs.observe(counterSection);
 
     // ── Reservation form → WhatsApp ─────────────────────
     function handleSubmit(e) {
